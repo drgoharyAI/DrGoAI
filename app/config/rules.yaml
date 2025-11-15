@@ -1,0 +1,204 @@
+# Insurance Adjudication Rules Configuration
+# Based on CCHI and NPHIES Guidelines for KSA
+
+# Coverage Rules
+coverage_rules:
+  # Automatic approval conditions
+  auto_approve:
+    - condition: "service_type == 'preventive' AND age >= 18 AND age <= 65"
+      reason: "Standard preventive care within age limits"
+    - condition: "service_cost <= 500 AND category == 'consultation'"
+      reason: "Low-cost consultation"
+  
+  # Automatic denial conditions
+  auto_deny:
+    - condition: "service_type IN excluded_services"
+      reason: "Service not covered by policy"
+    - condition: "annual_limit_exceeded == true"
+      reason: "Annual benefit limit exceeded"
+    - condition: "waiting_period_active == true"
+      reason: "Service within waiting period"
+    - condition: "age < minimum_age OR age > maximum_age"
+      reason: "Age restriction"
+
+# Service-Specific Rules
+service_rules:
+  # Surgical procedures
+  surgery:
+    requires_preauth: true
+    maximum_cost: 100000
+    requires_specialist: true
+    valid_specialties: ["general_surgery", "orthopedics", "cardiology"]
+  
+  # Diagnostic procedures
+  diagnostics:
+    mri:
+      requires_preauth: true
+      requires_referral: true
+      max_per_year: 2
+    ct_scan:
+      requires_preauth: true
+      requires_referral: true
+      max_per_year: 3
+    xray:
+      requires_preauth: false
+      max_per_visit: 3
+  
+  # Medications
+  pharmacy:
+    chronic_medication:
+      requires_preauth: false
+      max_days_supply: 90
+    specialty_medication:
+      requires_preauth: true
+      requires_specialist: true
+      max_cost_per_fill: 5000
+
+# Medical Necessity Criteria
+medical_necessity:
+  # Evidence requirements
+  required_documentation:
+    - "clinical_notes"
+    - "diagnosis_codes"
+    - "previous_treatments"
+  
+  # Red flags requiring additional review
+  review_triggers:
+    - "experimental_procedure"
+    - "off_label_use"
+    - "high_cost_service"
+    - "cosmetic_indication"
+    - "duplicate_service"
+
+# Excluded Services (KSA Standard)
+excluded_services:
+  - "cosmetic_surgery"
+  - "fertility_treatment"
+  - "weight_loss_surgery"  # Unless medically necessary
+  - "experimental_treatment"
+  - "alternative_medicine"
+  - "dental_cosmetic"
+  - "vision_correction_surgery"
+
+# Age-Based Restrictions
+age_restrictions:
+  pediatric:
+    min_age: 0
+    max_age: 14
+    special_services:
+      - "vaccinations"
+      - "growth_monitoring"
+      - "developmental_screening"
+  
+  adult:
+    min_age: 15
+    max_age: 59
+    special_services:
+      - "routine_checkup"
+      - "chronic_disease_management"
+  
+  elderly:
+    min_age: 60
+    max_age: 120
+    special_services:
+      - "geriatric_assessment"
+      - "fall_prevention"
+
+# Network Rules
+network_rules:
+  in_network:
+    coverage_percentage: 90
+    requires_referral: false
+  
+  out_of_network:
+    coverage_percentage: 70
+    requires_preauth: true
+    maximum_reimbursement: 10000
+
+# Prior Authorization Requirements
+prior_auth_required:
+  procedures:
+    - "surgery"
+    - "hospitalization"
+    - "mri"
+    - "ct_scan"
+    - "pet_scan"
+    - "genetic_testing"
+  
+  medications:
+    - "biologic_agents"
+    - "specialty_drugs"
+    - "experimental_drugs"
+  
+  therapies:
+    - "physical_therapy"  # After 10 sessions
+    - "occupational_therapy"  # After 10 sessions
+    - "speech_therapy"  # After 10 sessions
+
+# Cost Thresholds
+cost_thresholds:
+  auto_approve_max: 5000  # SAR
+  require_medical_review_min: 5000  # SAR
+  require_senior_review_min: 50000  # SAR
+  
+# Frequency Limits
+frequency_limits:
+  routine_checkup:
+    max_per_year: 1
+    min_interval_days: 365
+  
+  specialist_consultation:
+    max_per_year: 4
+    requires_referral: true
+  
+  emergency_room:
+    max_per_year: 6
+    copay_after: 2
+
+# Emergency Services
+emergency_rules:
+  auto_approve: true
+  post_facto_review: true
+  valid_conditions:
+    - "life_threatening"
+    - "severe_injury"
+    - "acute_condition"
+
+# Chronic Disease Management
+chronic_disease_programs:
+  diabetes:
+    covered_services:
+      - "glucose_monitoring"
+      - "endocrinology_consultation"
+      - "diabetic_education"
+      - "insulin_supplies"
+    frequency: "quarterly"
+  
+  hypertension:
+    covered_services:
+      - "blood_pressure_monitoring"
+      - "cardiology_consultation"
+      - "medication_management"
+    frequency: "quarterly"
+  
+  asthma:
+    covered_services:
+      - "pulmonology_consultation"
+      - "spirometry"
+      - "inhaler_supplies"
+    frequency: "quarterly"
+
+# Confidence Thresholds
+decision_thresholds:
+  auto_approve_confidence: 0.85
+  auto_deny_confidence: 0.85
+  require_human_review_range: [0.3, 0.85]
+  
+# Audit Requirements
+audit_rules:
+  log_all_decisions: true
+  retain_days: 2555  # 7 years as per KSA regulations
+  flag_patterns:
+    - "high_denial_rate"
+    - "frequent_appeals"
+    - "unusual_billing_patterns"

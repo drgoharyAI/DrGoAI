@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Models Configuration - DrGoAi</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/"><i class="fas fa-heartbeat"></i> DrGoAi</a>
+      <a href="/" class="ms-auto btn btn-sm btn-outline-primary"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+  </nav>
+
+  <div id="alertContainer"></div>
+
+  <main class="container-fluid py-4">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h1><i class="fas fa-brain"></i> AI Models Configuration</h1>
+        <p class="text-muted">Manage ai models configuration</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div id="content">
+          <div class="text-center p-5">
+            <div class="loading" style="margin: 0 auto 1rem;"></div>
+            <p class="text-muted">Loading content...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/common.js"></script>
+  <script src="/static/js/llm-models.js"></script>
+</body>
+</html>

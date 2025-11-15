@@ -1,0 +1,410 @@
+# Saudi Health Insurance Policy - Standard Coverage Guidelines
+
+## Document Version: 1.0
+## Last Updated: November 2025
+## Compliant with: CCHI and NPHIES Standards
+
+---
+
+## 1. Coverage Overview
+
+This health insurance policy provides comprehensive medical coverage for members in accordance with the Council of Cooperative Health Insurance (CCHI) regulations and NPHIES requirements in the Kingdom of Saudi Arabia.
+
+### 1.1 Covered Services
+
+The following services are covered under this policy:
+
+#### Medical Consultations
+- Routine medical consultations with general practitioners
+- Specialist consultations (with referral)
+- Emergency room visits
+- Telemedicine consultations
+- Annual preventive health checkups
+
+#### Diagnostic Services
+- Laboratory tests (blood tests, urinalysis, etc.)
+- X-ray examinations
+- Ultrasound imaging
+- CT scans (with prior authorization)
+- MRI scans (with prior authorization)
+- PET scans (with prior authorization)
+- Genetic testing (with prior authorization and medical necessity)
+
+#### Surgical Procedures
+- Medically necessary surgical procedures
+- Emergency surgical interventions
+- Day surgery procedures
+- Inpatient surgical procedures
+- Anesthesia services
+- Post-operative care
+
+#### Hospitalization
+- Inpatient hospital stays
+- Intensive care unit (ICU)
+- Coronary care unit (CCU)
+- Semi-private room accommodation
+- Hospital supplies and medications
+- Nursing care
+
+#### Chronic Disease Management
+- Diabetes management
+- Hypertension management
+- Asthma and respiratory conditions
+- Cardiac conditions
+- Oncology care
+- Renal disease management
+
+#### Maternity Care (if included in plan)
+- Prenatal care
+- Delivery (normal and cesarean)
+- Postnatal care
+- Complications of pregnancy
+
+---
+
+## 2. Excluded Services
+
+The following services are NOT covered under this policy:
+
+### 2.1 Cosmetic Procedures
+- Cosmetic surgery
+- Aesthetic procedures
+- Dental cosmetic work
+- Vision correction surgery (LASIK) for cosmetic purposes
+
+### 2.2 Fertility Treatments
+- In-vitro fertilization (IVF)
+- Fertility medications
+- Fertility testing and procedures
+- Note: May be covered under special riders
+
+### 2.3 Experimental Treatments
+- Experimental or investigational procedures
+- Clinical trial participation
+- Unproven medical treatments
+- Off-label medication use (unless medically justified)
+
+### 2.4 Alternative Medicine
+- Traditional medicine
+- Herbal treatments
+- Homeopathy
+- Acupuncture (unless specifically covered)
+
+### 2.5 Weight Management
+- Weight loss surgery (unless medically necessary with BMI > 40)
+- Weight loss programs
+- Dietary supplements
+
+---
+
+## 3. Prior Authorization Requirements
+
+### 3.1 Mandatory Prior Authorization
+
+The following services REQUIRE prior authorization:
+
+#### High-Cost Procedures
+- Any surgical procedure exceeding 20,000 SAR
+- Total joint replacements (hip, knee)
+- Cardiac procedures (bypass, stenting, valve replacement)
+- Neurosurgery
+- Organ transplants
+
+#### Advanced Imaging
+- MRI scans
+- CT scans
+- PET scans
+- Nuclear medicine studies
+
+#### Specialty Medications
+- Biologic agents
+- Chemotherapy medications
+- Medications exceeding 5,000 SAR per month
+- Specialty injectable medications
+
+#### Extended Therapies
+- Physical therapy beyond 10 sessions
+- Occupational therapy beyond 10 sessions
+- Speech therapy beyond 10 sessions
+- Rehabilitation programs
+
+### 3.2 Authorization Process
+
+To obtain prior authorization:
+1. Submit request at least 5 business days before service
+2. Include complete medical documentation
+3. Provide clinical justification for medical necessity
+4. Include recent diagnostic results
+5. Specify expected costs and treatment plan
+
+### 3.3 Emergency Services
+
+Emergency services do NOT require prior authorization but must be reported within 24 hours.
+
+---
+
+## 4. Medical Necessity Criteria
+
+### 4.1 Definition
+
+A service is considered medically necessary when:
+- Appropriate for diagnosis or treatment of the medical condition
+- Consistent with accepted standards of medical practice
+- Not primarily for convenience of patient or provider
+- Not experimental or investigational
+- Most appropriate and cost-effective option available
+
+### 4.2 Documentation Requirements
+
+Medical necessity must be supported by:
+- Clinical notes from treating physician
+- Relevant diagnostic test results
+- Treatment history and previous interventions
+- Evidence-based medical literature (if applicable)
+- Second opinion (for complex cases)
+
+### 4.3 Review Process
+
+Medical necessity is evaluated by:
+- Clinical review team
+- Board-certified physicians in relevant specialty
+- Evidence-based guidelines and protocols
+- CCHI approved medical policies
+
+---
+
+## 5. Cost Sharing and Limits
+
+### 5.1 Copayments
+
+Standard copayments apply:
+- General practitioner consultation: 100 SAR
+- Specialist consultation: 150 SAR
+- Emergency room visit: 300 SAR (waived if admitted)
+- Diagnostic tests: 20% of cost
+- Prescription medications: 15% of cost
+
+### 5.2 Annual Limits
+
+- Maximum annual benefit: 500,000 SAR per member
+- Specific procedure limits:
+  - Total joint replacement: 100,000 SAR per joint
+  - Cardiac surgery: 150,000 SAR per procedure
+  - Cancer treatment: 300,000 SAR per year
+  - Dialysis: Unlimited (chronic condition)
+
+### 5.3 Lifetime Limits
+
+- No lifetime maximum for most conditions
+- Organ transplants: 1 per member lifetime
+- Certain congenital conditions: Subject to review
+
+---
+
+## 6. Network and Provider Requirements
+
+### 6.1 In-Network Providers
+
+- Coverage: 90% after copayment
+- No prior referral needed for specialists
+- Direct billing available
+- Preferred provider network
+
+### 6.2 Out-of-Network Providers
+
+- Coverage: 70% after copayment
+- Prior authorization required
+- Member must pay difference between billed and approved amounts
+- Maximum reimbursement limits apply
+
+### 6.3 International Treatment
+
+- Emergency treatment abroad: Covered up to 50,000 SAR
+- Elective treatment abroad: Not covered
+- Medical evacuation: Covered in emergencies
+
+---
+
+## 7. Age-Specific Coverage
+
+### 7.1 Pediatric Care (0-14 years)
+
+Enhanced coverage includes:
+- All recommended vaccinations
+- Growth and developmental monitoring
+- Pediatric preventive care
+- Congenital condition treatment
+
+### 7.2 Adult Care (15-59 years)
+
+Standard coverage includes:
+- Routine health maintenance
+- Chronic disease management
+- Preventive screenings
+- Reproductive health (for women)
+
+### 7.3 Elderly Care (60+ years)
+
+Enhanced coverage includes:
+- Geriatric assessments
+- Fall prevention programs
+- Chronic disease management
+- Home health services (with approval)
+
+---
+
+## 8. Orthopedic Services Specifics
+
+### 8.1 Total Knee Replacement
+
+**Coverage Criteria:**
+- Conservative treatment failed for at least 6 months
+- Documented osteoarthritis or joint damage
+- Significant functional impairment
+- Age consideration: Typically 50+ years
+- BMI less than 40 (unless medically managed)
+
+**Required Documentation:**
+- Recent X-rays or MRI (within 6 months)
+- Physical therapy records
+- Pain management history
+- Functional assessment
+- Surgeon's clinical notes
+
+**Pre-Authorization:** REQUIRED
+**Expected Coverage:** 90% after copay
+**Maximum Benefit:** 100,000 SAR
+
+### 8.2 Hip Replacement
+
+Similar criteria to knee replacement with:
+- Evidence of avascular necrosis, fracture, or severe arthritis
+- Failure of conservative management
+- Appropriate surgical candidate
+
+### 8.3 Spinal Surgery
+
+**Requires:**
+- 12 months conservative treatment
+- MRI confirmation of pathology
+- Neurological consultation
+- Failed epidural steroid injections (if applicable)
+- Second opinion for complex cases
+
+---
+
+## 9. Oncology Services
+
+### 9.1 Cancer Treatment
+
+Covered services include:
+- Chemotherapy (inpatient and outpatient)
+- Radiation therapy
+- Surgical oncology
+- Targeted therapy
+- Immunotherapy
+- Palliative care
+
+### 9.2 Screening Programs
+
+Covered preventive cancer screenings:
+- Mammography: Annual for women 40+
+- Colonoscopy: Every 10 years starting age 50
+- PSA testing: Annual for men 50+
+- Pap smear: Every 3 years for women 21-65
+
+---
+
+## 10. Cardiac Services
+
+### 10.1 Diagnostic Cardiology
+
+Covered services:
+- Electrocardiogram (ECG)
+- Echocardiogram
+- Stress tests
+- Cardiac catheterization (with medical necessity)
+- Holter monitoring
+
+### 10.2 Interventional Cardiology
+
+Prior authorization required:
+- Coronary angioplasty and stenting
+- Cardiac valve procedures
+- Pacemaker implantation
+- Coronary artery bypass grafting (CABG)
+
+**Medical Necessity Criteria:**
+- Documented cardiac disease
+- Failed medical management
+- Appropriate surgical candidate
+- Benefit outweighs risk
+
+---
+
+## 11. Appeals and Grievances
+
+### 11.1 Appeal Rights
+
+Members have the right to appeal:
+- Denied authorizations
+- Coverage determinations
+- Medical necessity decisions
+
+### 11.2 Appeal Process
+
+1. **Level 1 - Internal Review**
+   - Submit within 30 days of denial
+   - Response within 15 business days
+   - Clinical peer review
+
+2. **Level 2 - External Review**
+   - Submit within 30 days of Level 1 decision
+   - Independent medical review
+   - Response within 30 business days
+
+### 11.3 Urgent Appeals
+
+For urgent/emergency situations:
+- Response within 72 hours
+- Verbal notification permitted
+- Written follow-up within 3 days
+
+---
+
+## 12. Important Contact Information
+
+- **Claims Department:** 800-XXX-XXXX
+- **Prior Authorization:** 800-XXX-YYYY
+- **Member Services:** 800-XXX-ZZZZ
+- **24/7 Nurse Hotline:** 800-XXX-AAAA
+
+---
+
+## 13. Policy Definitions
+
+**Medical Necessity:** Treatment or service that is appropriate and necessary for diagnosis or treatment.
+
+**Prior Authorization:** Advance approval required before receiving certain services.
+
+**In-Network:** Healthcare providers contracted with the insurance company.
+
+**Copayment:** Fixed amount paid by member at time of service.
+
+**Annual Maximum:** Maximum amount insurance will pay per year.
+
+---
+
+## Document Control
+
+This policy document is maintained by the Medical Policy Department and updated quarterly to reflect:
+- Changes in CCHI regulations
+- Updates to NPHIES requirements
+- New medical evidence and guidelines
+- Formulary changes
+
+**Next Review Date:** February 2026
+
+---
+
+*This document is for reference purposes. For specific coverage questions, please contact Member Services.*

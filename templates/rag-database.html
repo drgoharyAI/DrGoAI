@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAG Database Management - DrGoAi</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="/static/css/main.css" rel="stylesheet">
+  <style>
+    .stat-card {
+      border-left: 4px solid #0d6efd;
+      transition: transform 0.2s;
+    }
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .doc-item {
+      transition: background 0.2s;
+    }
+    .doc-item:hover {
+      background: #f8f9fa;
+    }
+    .chat-container {
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    .chat-message {
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+    }
+    .chat-user {
+      background: #e3f2fd;
+      margin-left: 20%;
+    }
+    .chat-assistant {
+      background: #f5f5f5;
+      margin-right: 20%;
+    }
+    .source-badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+    }
+    .upload-area {
+      border: 2px dashed #dee2e6;
+      border-radius: 0.5rem;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .upload-area:hover {
+      border-color: #0d6efd;
+      background: #f8f9fa;
+    }
+    .upload-area.dragover {
+      border-color: #0d6efd;
+      background: #e7f1ff;
+    }
+    .confidence-bar {
+      height: 8px;
+      border-radius: 4px;
+      background: #e9ecef;
+      overflow: hidden;
+    }
+    .confidence-fill {
+      height: 100%;
+      transition: width 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/"><i class="fas fa-heartbeat"></i> DrGoAi</a>
+      <div class="navbar-nav ms-auto">
+        <span class="navbar-text me-3" id="dbStatus">
+          <i class="fas fa-circle text-secondary"></i> <span>Checking...</span>
+        </span>
+        <a href="/" class="btn btn-sm btn-outline-primary"><i class="fas fa-arrow-left"></i> Back</a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="alertContainer"></div>
+
+  <main class="container-fluid py-4">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h1><i class="fas fa-database text-primary"></i> RAG Database Management</h1>
+        <p class="text-muted">Upload documents, manage knowledge base, and query with RAG chatbot</p>
+      </div>
+    </div>
+
+    <div class="row mb-4" id="statsSection">
+      <div class="col-md-3 mb-3">
+        <div class="card stat-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="text-muted mb-1">Total Documents</h6>
+                <h3 class="mb-0" id="statDocs">0</h3>
+              </div>
+              <div class="text-primary">
+                <i class="fas fa-file-alt fa-2x"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="card stat-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="text-muted mb-1">Total Chunks</h6>
+                <h3 class="mb-0" id="statChunks">0</h3>
+              </div>
+              <div class="text-success">
+                <i class="fas fa-puzzle-piece fa-2x"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="card stat-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="text-muted mb-1">Total Size</h6>
+                <h3 class="mb-0" id="statSize">0 MB</h3>
+              </div>
+              <div class="text-info">
+                <i class="fas fa-hdd fa-2x"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="card stat-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="text-muted mb-1">Embedding Model</h6>
+                <small class="text-muted" id="statModel">Loading...</small>
+              </div>
+              <div class="text-warning">
+                <i class="fas fa-brain fa-2x"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 mb-4">
+        <div class="card mb-4">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-upload"></i> Upload Documents</h5>
+          </div>
+          <div class="card-body">
+            <div class="upload-area" id="uploadArea">
+              <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+              <h5>Drag & Drop Files Here</h5>
+              <p class="text-muted">or click to browse</p>
+              <p class="small text-muted">Supported: PDF, DOCX, TXT, MD</p>
+              <input type="file" id="fileInput" multiple accept=".pdf,.docx,.txt,.md" class="d-none">
+            </div>
+            
+            <div class="mt-3" id="uploadQueue" style="display: none;">
+              <h6>Selected Files:</h6>
+              <div id="fileList" class="small"></div>
+            </div>
+
+            <div class="mt-3">
+              <div class="row g-2">
+                <div class="col-md-6">
+                  <label class="form-label small">Policy Type</label>
+                  <select class="form-select form-select-sm" id="policyType">
+                    <option value="general">General</option>
+                    <option value="coverage">Coverage</option>
+                    <option value="exclusions">Exclusions</option>
+                    <option value="procedures">Procedures</option>
+                    <option value="guidelines">Guidelines</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small">Version</label>
+                  <input type="text" class="form-control form-control-sm" id="policyVersion" value="1.0">
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 d-grid">
+              <button class="btn btn-primary" id="uploadBtn" disabled>
+                <i class="fas fa-upload"></i> Upload & Process
+              </button>
+            </div>
+
+            <div id="uploadProgress" class="mt-3" style="display: none;">
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                     role="progressbar" style="width: 0%" id="progressBar"></div>
+              </div>
+              <small class="text-muted" id="progressText">Processing...</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fas fa-list"></i> Uploaded Documents</h5>
+            <button class="btn btn-sm btn-outline-secondary" id="refreshDocsBtn">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <div id="documentsList">
+              <div class="text-center text-muted py-4">
+                <i class="fas fa-folder-open fa-3x mb-2"></i>
+                <p>No documents uploaded</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0"><i class="fas fa-tools"></i> Database Actions</h5>
+          </div>
+          <div class="card-body">
+            <div class="d-grid gap-2">
+              <button class="btn btn-outline-info" id="reindexBtn">
+                <i class="fas fa-sync"></i> Reindex All
+              </button>
+              <button class="btn btn-outline-danger" id="clearDbBtn">
+                <i class="fas fa-trash-alt"></i> Clear Database
+              </button>
+            </div>
+            <small class="text-muted d-block mt-2">
+              <i class="fas fa-info-circle"></i> Clearing cannot be undone!
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card" style="height: calc(100vh - 200px);">
+          <div class="card-header bg-success text-white">
+            <h5 class="mb-0"><i class="fas fa-comments"></i> RAG Chatbot</h5>
+          </div>
+          <div class="card-body d-flex flex-column" style="overflow: hidden;">
+            <div class="chat-container flex-grow-1 mb-3" id="chatContainer">
+              <div class="text-center text-muted py-5">
+                <i class="fas fa-robot fa-3x mb-3"></i>
+                <h5>Ask about your documents!</h5>
+                <p class="small">I'll search and provide answers with references.</p>
+              </div>
+            </div>
+
+            <div class="border-top pt-3">
+              <form id="chatForm">
+                <div class="input-group">
+                  <input type="text" class="form-control" id="chatInput" 
+                         placeholder="Ask about policies, procedures..." required>
+                  <button class="btn btn-success" type="submit" id="sendBtn">
+                    <i class="fas fa-paper-plane"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Delete</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Delete <strong id="deleteFilename"></strong>?</p>
+          <p class="text-muted small">This will remove all associated chunks.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="clearDbModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title">⚠️ Clear Database?</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="fw-bold">WARNING: Cannot be undone!</p>
+          <p>This deletes all chunks from ChromaDB.</p>
+          <div class="form-check mt-3">
+            <input class="form-check-input" type="checkbox" id="clearConfirmCheck">
+            <label class="form-check-label" for="clearConfirmCheck">
+              I understand this is permanent
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" id="confirmClearDbBtn" disabled>
+            Clear Database
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/common.js"></script>
+  <script src="/static/js/rag-database.js"></script>
+</body>
+</html>

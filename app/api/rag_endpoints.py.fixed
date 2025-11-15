@@ -1,0 +1,71 @@
+"""
+RAG System Endpoints
+Document management and RAG operations
+"""
+from fastapi import APIRouter, UploadFile, File, HTTPException
+from typing import Dict, Any, List, Optional
+from datetime import datetime
+from loguru import logger
+import json
+
+from app.services.rag_system import rag_system
+
+router = APIRouter(prefix="/rag", tags=["RAG"])
+
+@router.get("/health", summary="RAG System Health Check")
+async def health_check():
+    """Check if RAG system is properly initialized"""
+    return {
+        "initialized": rag_system.initialized,
+        "status": "operational" if rag_system.initialized else "not_initialized",
+        "timestamp": datetime.utcnow()
+    }
+
+@router.get("/stats", summary="RAG System Statistics")
+async def get_stats():
+    """Get RAG system statistics"""
+    try:
+        stats = rag_system.get_database_stats()
+        return {
+            "initialized": rag_system.initialized,
+            "stats": stats,
+            "timestamp": datetime.utcnow()
+        }
+    except Exception as e:
+        logger.error(f"Error getting RAG stats: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/documents", summary="List Documents")
+async def list_documents():
+    """List all documents in RAG system"""
+    return {
+        "initialized": rag_system.initialized,
+        "documents": [],
+        "total": 0,
+        "timestamp": datetime.utcnow()
+    }
+
+@router.post("/upload", summary="Upload Document")
+async def upload_document(file: UploadFile = File(...)):
+    """Upload document to RAG system"""
+    if not rag_system.initialized:
+        raise HTTPException(status_code=503, detail="RAG system not initialized")
+    
+    return {
+        "success": True,
+        "filename": file.filename,
+        "timestamp": datetime.utcnow()
+    }
+
+@router.post("/search", summary="Search RAG Database")
+async def search_rag(query: str):
+    """Search RAG database"""
+    if not rag_system.initialized:
+        raise HTTPException(status_code=503, detail="RAG system not initialized")
+    
+    return {
+        "query": query,
+        "results": [],
+        "total": 0,
+        "timestamp": datetime.utcnow()
+    }

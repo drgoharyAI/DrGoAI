@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DrGoAi - Health Insurance Management</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">
+        <i class="fas fa-heartbeat"></i> DrGoAi
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/medical-rules">
+              <i class="fas fa-gavel"></i> Medical Rules
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/hd-conditions">
+              <i class="fas fa-stethoscope"></i> Health Conditions
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/llm-models">
+              <i class="fas fa-brain"></i> AI Models
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/fraud-rules">
+              <i class="fas fa-shield-alt"></i> Fraud Rules
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/rag-database">
+              <i class="fas fa-database"></i> RAG Database
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/risk-parameters">
+              <i class="fas fa-chart-line"></i> Risk Parameters
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/fhir-testing">
+              <i class="fas fa-flask"></i> FHIR Testing
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Alert Container -->
+  <div id="alertContainer"></div>
+
+  <!-- Main Content -->
+  <main class="container-fluid py-4">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h1><i class="fas fa-chart-line"></i> Dashboard</h1>
+        <p class="text-muted">Health Insurance Pre-Authorization Management System</p>
+      </div>
+    </div>
+
+    <!-- Status Cards Row -->
+    <div class="row mb-4" id="statusCards"></div>
+
+    <!-- System Status Section -->
+    <div class="row">
+      <div class="col-12 col-lg-8">
+        <div class="card">
+          <div class="card-header">
+            <h3><i class="fas fa-cog"></i> System Status</h3>
+          </div>
+          <div class="card-body">
+            <div id="systemStatus" class="text-center">
+              <div class="loading" style="margin: 2rem auto;"></div>
+              <p class="text-muted">Loading system information...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-4">
+        <div class="card">
+          <div class="card-header">
+            <h3><i class="fas fa-info-circle"></i> Quick Actions</h3>
+          </div>
+          <div class="card-body">
+            <div class="d-grid gap-2">
+              <a href="/medical-rules" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Create Medical Rule
+              </a>
+              <a href="/fraud-rules" class="btn btn-warning">
+                <i class="fas fa-shield-alt"></i> Setup Fraud Detection
+              </a>
+              <a href="/llm-models" class="btn btn-info">
+                <i class="fas fa-brain"></i> Configure AI Models
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-4 text-center text-muted mt-4" style="border-top: 1px solid #e2e8f0;">
+    <small>DrGoAi © 2025 • Health Insurance Pre-Authorization System • Saudi Arabia</small>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/common.js"></script>
+  <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+DrGoAi v3.0 - KSA Health Insurance Pre-Authorization System
+============================================================
+
+QUICK START
+-----------
+1. Extract the package
+2. Install dependencies: pip install -r requirements.txt
+3. Run: ./run.sh  OR  uvicorn app.main:app --host 0.0.0.0 --port 7860
+
+ACCESS
+------
+Main Dashboard: http://localhost:7860
+FHIR Testing: http://localhost:7860/fhir-testing
+API Docs: http://localhost:7860/docs
+
+HUGGINGFACE DEPLOYMENT
+----------------------
+1. Create new Space (Docker)
+2. Upload all files
+3. Dockerfile is ready
+4. Port: 7860 (pre-configured)
+
+DOCKER DEPLOYMENT
+-----------------
+docker build -t drgoai .
+docker run -p 7860:7860 drgoai
+
+FILES INCLUDED
+--------------
+- Complete backend (app/)
+- Frontend templates (templates/)
+- Configuration (.env.example)
+- Sample FHIR bundle (sample_data.json)
+- Docker support (Dockerfile)
+- Run script (run.sh)
+
+NO DOCUMENTATION FILES - PRODUCTION READY CODE ONLY

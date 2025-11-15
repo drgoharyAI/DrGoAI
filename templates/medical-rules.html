@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Rules - DrGoAi</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">
+        <i class="fas fa-heartbeat"></i> DrGoAi
+      </a>
+      <div class="ms-auto">
+        <a href="/" class="btn btn-sm btn-outline-primary">
+          <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Alert Container -->
+  <div id="alertContainer"></div>
+
+  <!-- Main Content -->
+  <main class="container-fluid py-4">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h1><i class="fas fa-gavel"></i> Medical Rules</h1>
+        <p class="text-muted">Create and manage insurance coverage rules</p>
+      </div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <ul class="nav nav-tabs mb-4" id="ruleTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="list-tab" data-bs-toggle="tab" data-bs-target="#listTab" type="button">
+          <i class="fas fa-list"></i> List
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="create-tab" data-bs-toggle="tab" data-bs-target="#createTab" type="button">
+          <i class="fas fa-plus"></i> Create New
+        </button>
+      </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="ruleTabContent">
+      <!-- List Tab -->
+      <div class="tab-pane fade show active" id="listTab" role="tabpanel">
+        <div class="card">
+          <div class="card-header">
+            <div class="flex-between">
+              <h3><i class="fas fa-table"></i> Medical Rules List</h3>
+              <button class="btn btn-sm btn-outline-primary" onclick="location.reload()">
+                <i class="fas fa-sync"></i> Refresh
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="rulesTable"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Create Tab -->
+      <div class="tab-pane fade" id="createTab" role="tabpanel">
+        <div class="card">
+          <div class="card-header">
+            <h3><i class="fas fa-plus-circle"></i> Create New Medical Rule</h3>
+          </div>
+          <div class="card-body">
+            <form id="ruleForm" class="needs-validation">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="ruleId" class="form-label">Rule ID</label>
+                  <input type="text" class="form-control" id="ruleId" name="rule_id" placeholder="e.g., RULE_001" required>
+                  <small class="text-muted">Unique identifier for this rule</small>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="ruleName" class="form-label">Rule Name</label>
+                  <input type="text" class="form-control" id="ruleName" name="name" placeholder="e.g., Emergency Auto-Approval" required>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="ruleDescription" class="form-label">Description</label>
+                <textarea class="form-control" id="ruleDescription" name="description" rows="2" placeholder="Describe what this rule does" required></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label for="ruleCondition" class="form-label">Condition</label>
+                <textarea class="form-control" id="ruleCondition" name="condition" rows="2" placeholder="e.g., admission_type == 'emergency' AND coverage_active == true" required></textarea>
+                <small class="text-muted">Define when this rule applies</small>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="ruleAction" class="form-label">Action</label>
+                  <select class="form-select" id="ruleAction" name="action" required>
+                    <option value="">Select action</option>
+                    <option value="APPROVE">Approve</option>
+                    <option value="DENY">Deny</option>
+                    <option value="REVIEW">Review</option>
+                  </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="rulePriority" class="form-label">Priority</label>
+                  <input type="number" class="form-control" id="rulePriority" name="priority" value="1" min="1" max="100" required>
+                  <small class="text-muted">Lower number = higher priority</small>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="ruleEnabled" class="form-label">Status</label>
+                  <select class="form-select" id="ruleEnabled" name="enabled" required>
+                    <option value="true">Enabled</option>
+                    <option value="false">Disabled</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="reset" class="btn btn-outline-secondary">
+                  <i class="fas fa-redo"></i> Clear
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-save"></i> Create Rule
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-4 text-center text-muted mt-4" style="border-top: 1px solid #e2e8f0;">
+    <small>DrGoAi © 2025 • Medical Rules Management</small>
+  </footer>
+
+  <!-- Edit Modal -->
+  <div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Medical Rule</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editForm">
+            <input type="hidden" id="editRuleId">
+            <div class="mb-3">
+              <label class="form-label">Name</label>
+              <input type="text" class="form-control" id="editName" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" id="editDescription" rows="2" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Condition</label>
+              <textarea class="form-control" id="editCondition" rows="2" required></textarea>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Action</label>
+                <select class="form-select" id="editAction" required>
+                  <option value="APPROVE">Approve</option>
+                  <option value="DENY">Deny</option>
+                  <option value="REVIEW">Review</option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Priority</label>
+                <input type="number" class="form-control" id="editPriority" min="1" max="100" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Status</label>
+              <select class="form-select" id="editEnabled" required>
+                <option value="true">Enabled</option>
+                <option value="false">Disabled</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="saveMedicalRule()">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/common.js"></script>
+  <script src="/static/js/medical-rules.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Install minimal system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+
+# Copy and install requirements
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application
+COPY . .
+
+# Create directories
+RUN mkdir -p data/uploads data/embeddings/chroma_db data/policies logs model_cache
+
+# Expose port
+EXPOSE 7860
+
+# Run with uvicorn directly for better performance
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "7860"]

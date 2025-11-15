@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FHIR Testing & Validation - DrGoAi</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="/static/css/main.css" rel="stylesheet">
+  <style>
+    .fhir-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 1200px) {
+      .fhir-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .json-viewer {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 12px;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    .json-key {
+      color: #2563eb;
+      font-weight: 600;
+    }
+
+    .json-string {
+      color: #16a34a;
+    }
+
+    .json-number {
+      color: #ea580c;
+    }
+
+    .json-boolean {
+      color: #7c3aed;
+    }
+
+    .json-null {
+      color: #6b7280;
+      font-style: italic;
+    }
+
+    .tree-item {
+      margin-left: 1.5rem;
+      border-left: 1px solid #dee2e6;
+      padding-left: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .result-section {
+      background: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #dee2e6;
+    }
+
+    .result-icon {
+      font-size: 28px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+    }
+
+    .status-approved {
+      background: rgba(22, 163, 74, 0.1);
+      color: #16a34a;
+    }
+
+    .status-rejected {
+      background: rgba(220, 38, 38, 0.1);
+      color: #dc2626;
+    }
+
+    .status-review {
+      background: rgba(234, 88, 12, 0.1);
+      color: #ea580c;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .metric-card {
+      background: #f8fafc;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #2563eb;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .risk-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .risk-low {
+      background: rgba(22, 163, 74, 0.1);
+      color: #16a34a;
+    }
+
+    .risk-medium {
+      background: rgba(234, 88, 12, 0.1);
+      color: #ea580c;
+    }
+
+    .risk-high {
+      background: rgba(220, 38, 38, 0.1);
+      color: #dc2626;
+    }
+
+    .decision-timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2rem;
+      top: 0;
+      width: 12px;
+      height: 12px;
+      background: #2563eb;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      left: -1.95rem;
+      top: 12px;
+      width: 2px;
+      height: 100%;
+      background: #dee2e6;
+    }
+
+    .timeline-item:last-child::after {
+      display: none;
+    }
+
+    .upload-zone {
+      border: 2px dashed #2563eb;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      background: rgba(37, 99, 235, 0.02);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .upload-zone:hover {
+      background: rgba(37, 99, 235, 0.05);
+      border-color: #1e40af;
+    }
+
+    .upload-zone.dragover {
+      background: rgba(37, 99, 235, 0.1);
+      border-color: #1e40af;
+    }
+
+    .processing-spinner {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(37, 99, 235, 0.2);
+      border-radius: 50%;
+      border-top-color: #2563eb;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .detail-table {
+      width: 100%;
+      font-size: 13px;
+      margin-top: 1rem;
+    }
+
+    .detail-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .detail-table td:first-child {
+      font-weight: 600;
+      color: #334155;
+      width: 30%;
+    }
+
+    .detail-table td:last-child {
+      color: #64748b;
+    }
+
+    .flag-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .flag-list li {
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .flag-list li::before {
+      content: '⚠️';
+      margin-right: 0.5rem;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: #2563eb;
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
+
+    .processing-options {
+      background: #f8fafc;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .processing-option {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .processing-option:last-child {
+      margin-bottom: 0;
+    }
+
+    .processing-option label {
+      margin: 0;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .claims-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .claim-item {
+      background: #f8fafc;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .claim-item:hover {
+      background: #f1f5f9;
+      border-color: #2563eb;
+    }
+
+    .claim-item.selected {
+      background: rgba(37, 99, 235, 0.1);
+      border-color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/"><i class="fas fa-heartbeat"></i> DrGoAi</a>
+      <a href="/" class="ms-auto btn btn-sm btn-outline-primary"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+  </nav>
+
+  <!-- Alert Container -->
+  <div id="alertContainer"></div>
+
+  <!-- Main Content -->
+  <main class="container-fluid py-4">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h1><i class="fas fa-stethoscope"></i> FHIR Testing & AI Processing</h1>
+        <p class="text-muted">Upload FHIR claims, visualize data, and process through AI layers</p>
+      </div>
+    </div>
+
+    <!-- Upload Section -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h3><i class="fas fa-upload"></i> Step 1: Upload FHIR Claim</h3>
+      </div>
+      <div class="card-body">
+        <div class="upload-zone" id="uploadZone">
+          <div style="font-size: 48px; margin-bottom: 1rem;">
+            <i class="fas fa-cloud-upload-alt"></i>
+          </div>
+          <div>
+            <p class="mb-2" style="font-size: 16px; font-weight: 600;">Drop FHIR JSON file here or click to upload</p>
+            <p class="text-muted mb-0">Supports FHIR Claim resources (JSON format)</p>
+          </div>
+          <input type="file" id="fhirFile" accept=".json" style="display: none;">
+        </div>
+        <div style="margin-top: 1rem; text-align: center;">
+          <button class="btn btn-sm btn-outline-primary" onclick="loadSampleFHIR()">
+            <i class="fas fa-download"></i> Load Sample FHIR
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="fhir-container">
+      <!-- Left Side: FHIR Data Visualization -->
+      <div>
+        <div class="card">
+          <div class="card-header">
+            <h3><i class="fas fa-code"></i> Step 2: FHIR Data Structure</h3>
+          </div>
+          <div class="card-body">
+            <div id="claimSummary" style="display: none; margin-bottom: 1.5rem;">
+              <div class="metrics-grid">
+                <div class="metric-card">
+                  <div class="metric-value" id="summaryClaimId">-</div>
+                  <div class="metric-label">Claim ID</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-value" id="summaryTotal">0</div>
+                  <div class="metric-label">Total Amount</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-value" id="summaryItems">0</div>
+                  <div class="metric-label">Items</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-value" id="summaryDiagnosis">0</div>
+                  <div class="metric-label">Diagnoses</div>
+                </div>
+              </div>
+            </div>
+            <div class="json-viewer" id="jsonViewer">
+              <div class="text-muted text-center py-4">
+                <i class="fas fa-inbox"></i>
+                <p>No FHIR data loaded</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side: Processing Controls & Results -->
+      <div>
+        <!-- Processing Options -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <h3><i class="fas fa-cogs"></i> Step 3: Processing Configuration</h3>
+          </div>
+          <div class="card-body">
+            <div class="processing-options">
+              <div class="processing-option">
+                <div class="toggle-switch">
+                  <input type="checkbox" id="processRules" checked>
+                  <span class="toggle-slider"></span>
+                </div>
+                <label for="processRules">
+                  <strong>Medical Rules Processing</strong>
+                  <br><small class="text-muted">Apply coverage rules & validate items</small>
+                </label>
+              </div>
+
+              <div class="processing-option">
+                <div class="toggle-switch">
+                  <input type="checkbox" id="processFraud" checked>
+                  <span class="toggle-slider"></span>
+                </div>
+                <label for="processFraud">
+                  <strong>Fraud Detection Analysis</strong>
+                  <br><small class="text-muted">Detect anomalies & risk patterns</small>
+                </label>
+              </div>
+
+              <div class="processing-option">
+                <div class="toggle-switch">
+                  <input type="checkbox" id="processRisk" checked>
+                  <span class="toggle-slider"></span>
+                </div>
+                <label for="processRisk">
+                  <strong>Risk Assessment</strong>
+                  <br><small class="text-muted">Calculate financial risk scores</small>
+                </label>
+              </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <button class="btn btn-outline-secondary" id="validateBtn" onclick="validateFHIR()" style="display: none;">
+                <i class="fas fa-check-circle"></i> Validate Only
+              </button>
+              <button class="btn btn-primary" id="processBtn" onclick="processClaim()" style="display: none;">
+                <i class="fas fa-brain"></i> Process with AI
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <h3><i class="fas fa-chart-bar"></i> Step 4: Processing Results</h3>
+            </div>
+            <div class="card-body">
+              <!-- Final Decision -->
+              <div class="result-section">
+                <div class="result-header">
+                  <div class="result-icon status-approved" id="decisionIcon">
+                    <i class="fas fa-check"></i>
+                  </div>
+                  <div>
+                    <div style="font-size: 18px; font-weight: 700;" id="finalDecision">APPROVED</div>
+                    <small class="text-muted">Final Recommendation</small>
+                  </div>
+                </div>
+                <div id="decisionReasons" class="decision-timeline"></div>
+              </div>
+
+              <!-- Tabs for detailed results -->
+              <ul class="nav nav-tabs" id="resultTabs" role="tablist" style="margin-bottom: 1rem;">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="rules-tab" data-bs-toggle="tab" data-bs-target="#rulesResult" type="button">
+                    <i class="fas fa-gavel"></i> Medical Rules
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="fraud-tab" data-bs-toggle="tab" data-bs-target="#fraudResult" type="button">
+                    <i class="fas fa-shield-alt"></i> Fraud
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="risk-tab" data-bs-toggle="tab" data-bs-target="#riskResult" type="button">
+                    <i class="fas fa-chart-line"></i> Risk
+                  </button>
+                </li>
+              </ul>
+
+              <div class="tab-content" id="resultTabContent">
+                <!-- Medical Rules Results -->
+                <div class="tab-pane fade show active" id="rulesResult" role="tabpanel">
+                  <div id="rulesContent"></div>
+                </div>
+
+                <!-- Fraud Detection Results -->
+                <div class="tab-pane fade" id="fraudResult" role="tabpanel">
+                  <div id="fraudContent"></div>
+                </div>
+
+                <!-- Risk Assessment Results -->
+                <div class="tab-pane fade" id="riskResult" role="tabpanel">
+                  <div id="riskContent"></div>
+                </div>
+              </div>
+
+              <!-- Processing Time -->
+              <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #dee2e6; text-align: center;">
+                <small class="text-muted">Processing completed in <span id="processingTime">0</span>ms</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-4 text-center text-muted mt-4" style="border-top: 1px solid #e2e8f0;">
+    <small>DrGoAi © 2025 • FHIR Testing & Validation • AI Processing Engine</small>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/common.js"></script>
+  <script src="/static/js/fhir-testing.js"></script>
+</body>
+</html>
